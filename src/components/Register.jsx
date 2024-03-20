@@ -1,48 +1,77 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"
+import React, { useState } from "react"; // Import React and useState
+import { useNavigate } from "react-router-dom";
 
-// This page includes the way to register
+function Register({ setToken }) {
+  // Pass props to Register component
 
-function Register() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  
+  const [userInfo, setUserInfo] = useState({
+    // Moved useState inside the Register component
+    username: "",
+    email: "",
+    firstname: "",
+    lastname: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevValue) => ({ ...prevValue, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(userInfo);
+    // post our user to the database with fetch or axios
+    // use the token we get back in the response to SetToken
+    setToken(/* pass the token received */);
+    navigate("/useraccount");
+  };
+
+  return (
+    <>
+      <h2>Register</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username:
+          <input
+            type="text"
+            name="username"
+            value={userInfo.username}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={userInfo.email}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          First Name:
+          <input
+            type="text"
+            name="firstname"
+            value={userInfo.firstname}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Last Name:
+          <input
+            type="text"
+            name="lastname"
+            value={userInfo.lastname}
+            onChange={handleChange}
+          />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </>
+  );
 }
 
-
-const [userInfo, setUserInfo] = useState({});
-
-const handleChange = (e) =>(
-    const target = e.target
-    const name = target.name
-    const password = target.password
-    setUserInfo((prevValue) =>{return(...prevValue, [name]:value)})
-
-
-function handleSubmit(e){
-  e.preventDefault()
-  console.log(userInfo
-  
-
-  setToken("")
-
-}
-
-return (
- <>
-<form onSubmit={()=>{handleSubmit()}}>
-<label>
-
-
-
-
-
-</label>
-<input onClick={handletype="submit" value = "Submit"/>
-
-</form>
-
-
-</>
-)
 export default Register;
